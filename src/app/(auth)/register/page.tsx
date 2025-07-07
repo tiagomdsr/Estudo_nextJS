@@ -1,17 +1,21 @@
 'use client'
 import { useRouter } from "next/navigation";
 import { z } from "zod";
-
-import { User } from "@/constants/types";
-import { useUser } from "@/context/UserContext";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { User } from "@/constants/types";
+import { useUser } from "@/context/UserContext";
+
 const registerSchema = z.object({
 	name: z.string().min(2, "O nome deve ter no mínimo 2 letras"),
-	email: z.string().email("Email inválido"),
+	email: z.string().email("Email inválido").refine((email) => {
+		const users: User[] = JSON.parse(localStorage.getItem("users") || "[]");
+		const existe: boolean = users.some(u => u.email === email);
+		return !existe;
+	}, "email já cadastrado"),
 	password: z.string().min(4, "senha muito curta"),
-})
+});
 
 type registerData = z.infer<typeof registerSchema>;
 
@@ -29,6 +33,7 @@ export default function Register() {
 
 	const onSubmit = (data: registerData) => {
 		const users: User[] = JSON.parse(localStorage.getItem("users") || "[]");
+
 		users.push({
 			name: data.name,
 			email: data.email,
@@ -36,6 +41,7 @@ export default function Register() {
 		});
 
 		localStorage.setItem("users", JSON.stringify(users));
+
 		alert("Cadastro realizado");
 		
 		const user = users.find(u => u.email === data.email && u.password === data.password);
@@ -45,6 +51,7 @@ export default function Register() {
 			localStorage.setItem("loggedUser", JSON.stringify(user));		
 			router.push("/")
 		}
+
 	}
 
 	return (

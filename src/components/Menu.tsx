@@ -1,20 +1,12 @@
 'use client'
 
 import { useUser } from "@/context/UserContext";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Menu() {
     const buttonClass: string = "cursor-pointer text-xl rounded-sm px-8 py-2 hover:bg-slate-800";
     const { user } = useUser()
     const { logout } = useUser();
-
-    const router = useRouter();
-
-    const handleRouter = (e:any): void => {
-        e.preventDefault();
-        const endereco = e.target.name;
-        router.push(`/${endereco}`);
-    }
 
     const handleLogout = () => {
         logout();
@@ -23,20 +15,20 @@ export default function Menu() {
 
     return (
         <div className="flex w-full items-center gap-x-2">
-            <button name="" className={buttonClass} onClick={handleRouter}>Início</button>
-            <button name="sobre" className={buttonClass} onClick={handleRouter}>Sobre</button>
-            <button name="contato" className={buttonClass} onClick={handleRouter}>Contato</button>
+            <Link href="/" className={buttonClass}>Início</Link>
+            <Link href="/sobre" className={buttonClass}>Sobre</Link>
+            <Link href="/contato" className={buttonClass}>Contato</Link>
 
             <div className="flex ml-auto gap-x-2">
                 {user ?
                     <div className="flex ml-auto gap-x-2">
                         <p className="text-xl px-8 py-2">Usuário: {user.name}</p>
-                        <button name="register" className={buttonClass} onClick={handleLogout}>Logout</button>
+                        <button className={buttonClass} onClick={handleLogout}>Logout</button>
                     </div>
                 : 
                     <div className="flex ml-auto gap-x-2">
-                        <button name="login" className={buttonClass} onClick={handleRouter}>Login</button>
-                        <button name="register" className={buttonClass} onClick={handleRouter}>Cadastro</button>
+                        <Link href="/login" className={buttonClass}>Login</Link>
+                        <Link href="/register" className={buttonClass}>Cadastro</Link>
                     </div>
                 }
             </div>

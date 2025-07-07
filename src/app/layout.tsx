@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
 
 import Menu from "../components/Menu"
 import { UserProvider } from "@/context/UserContext";
@@ -32,7 +33,9 @@ export default function RootLayout({
 			>
 				<UserProvider>
 					<header className="flex w-full justify-items-start gap-4 p-4 bg-slate-900">
-						<img src="/home.svg" width={60} height={60} />
+						<Link href="/">
+							<img src="/home.svg" width={60} height={60} />
+						</Link>
 						<Menu />
 					</header>
 

@@ -1,5 +1,5 @@
 'use client'
-// import { useEffect } from "react";
+
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -41,15 +41,6 @@ export default function Login() {
 			alert("Credenciais inválidas");
 		}
 	}
-
-	// useEffect(() => {
-	// 	const saved = localStorage.getItem("loggedUser")
-	// 	if (saved) {
-	// 		const parsed: User = JSON.parse(saved);
-	// 		login({name: parsed.name || "Usuário", email: parsed.email})
-	// 	}
-	// }, [login]);
-	
 
 	return (
 		<div className="flex flex-col w-full">
